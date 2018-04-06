@@ -6,8 +6,6 @@ metadata:
   name: ldap
   namespace: ldap
 spec:
-  externalIPs:
-  - 77.80.255.101
   ports:
   - name: ldap
     port: 636
