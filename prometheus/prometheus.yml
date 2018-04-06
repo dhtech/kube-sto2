@@ -1,0 +1,36 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+    labels:
+        k8s-app: prometheus
+    name: prometheus
+    namespace: monitoring
+spec:
+    replicas: 1
+    serviceName: "prometheus"
+    template:
+        metadata:
+            labels:
+                k8s-app: prometheus
+        spec:
+            containers:
+            - image: prom/prometheus
+              imagePullPolicy: Always
+              name: prometheus
+              args:
+                - -config.file=/etc/prometheus/prometheus.yml
+                - -storage.tsdb.path=/prometheus
+                - -storage.tsdb.retention=8760h
+              volumeMounts:
+                - mountPath: "/prometheus"
+                  name: prometheus-data
+                - mountPath: "/etc/prometheus"
+                  name: prometheus-config
+            restartPolicy: Always
+            volumes:
+                - name: prometheus-config
+                  configMap:
+                    name: prometheus-config
+                - name: prometheus-data
+                  persistentVolumeClaim:
+                    claimName: prometheus-data
