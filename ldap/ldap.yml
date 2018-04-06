@@ -1,0 +1,81 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: ldap
+  name: ldap
+  namespace: ldap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: ldap
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        k8s-app: ldap
+      name: ldap
+    spec:
+      containers:
+      - image: quay.io/dhtech/ldap
+        imagePullPolicy: Always
+        name: ldap
+        volumeMounts:
+          - name: tls-volume
+            mountPath: /etc/ssl/ldap
+        env:
+          - name: CA
+            value: /etc/ssl/ldap/ca.crt
+          - name: CERTFILE
+            value: /etc/ssl/ldap/server.crt
+          - name: KEYFILE
+            value: /etc/ssl/ldap/server.key
+          - name: LOGLEVEL
+            value: "0x4120"
+          - name: MASTER
+            valueFrom:
+              secretKeyRef:
+                name: ldap-credentials
+                key: master
+          - name: MASTERPW
+            valueFrom:
+              secretKeyRef:
+                name: ldap-credentials
+                key: master-password
+          - name: ROOTPW
+            valueFrom:
+              secretKeyRef:
+                name: ldap-credentials
+                key: root-password
+        resources:
+              requests:
+                memory: "900Mi"
+              limits:
+                memory: "4000Mi"
+        readinessProbe:
+          exec:
+            command:
+              - /ready.sh
+        livenessProbe:
+          exec:
+            command:
+              - /usr/bin/ldapsearch
+              - -x
+              - -H
+              - ldapi:///
+              - -s
+              - base
+              - -LLL
+              - dc
+          initialDelaySeconds: 60
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: tls-volume
+          secret:
+            secretName: ldap-tls
