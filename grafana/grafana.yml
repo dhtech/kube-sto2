@@ -20,19 +20,20 @@ spec:
         volumeMounts:
           - mountPath: "/var/lib/grafana"
             name: grafana-data
+          - mountPath: "/etc/dh-grafana"
+            name: grafana-conf
         env:
-          - name: GF_AUTH_BASIC_ENABLED
-            value: "true"
-          - name: GF_USERS_ALLOW_SIGN_UP
-            value: "false"
-          - name: GF_AUTH_ANONYMOUS_ENABLED
-            value: "false"
+          - name: GF_PATHS_CONFIG
+            value: "/etc/dh-grafana/grafana.ini"
         readinessProbe:
           httpGet:
             path: /login
             port: 3000
       restartPolicy: Always
       volumes:
+        - name: grafana-conf
+          configMap:
+            name: grafana-conf
         - name: grafana-data
           persistentVolumeClaim:
             claimName: grafana-data

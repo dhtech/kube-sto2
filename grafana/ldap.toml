@@ -1,0 +1,23 @@
+[[servers]]
+host = "ldap2.tech.dreamhack.se"
+port = 636
+use_ssl = true
+start_tls = false
+ssl_skip_verify = false
+root_ca_cert = "/etc/dh-grafana/ldap-ca.crt"
+
+search_filter = "(uid=%s)"
+search_base_dns = ["dc=tech,dc=dreamhack,dc=se"]
+group_search_filter = "(&(objectClass=posixGroup)(memberUid=%s))"
+group_search_base_dns = ["ou=groups,dc=tech,dc=dreamhack,dc=se"]
+
+[servers.attributes]
+name = "givenName"
+surname = "sn"
+username = "cn"
+email =  "mail"
+member_of = "cn"
+
+[[servers.group_mappings]]
+group_dn = "services-colo"
+org_role = "Admin"
