@@ -18,11 +18,11 @@ spec:
               imagePullPolicy: Always
               name: prometheus
               args:
-                - -config.file=/etc/prometheus/prometheus.yml
-                - -storage.tsdb.path=/prometheus
-                - -storage.tsdb.retention=8760h
+                - --config.file=/etc/prometheus/prometheus.yml
+                - --storage.tsdb.path=/prometheus
+                - --storage.tsdb.retention=8760h
               volumeMounts:
-                - mountPath: "/prometheus"
+                - mountPath: "/prometheus/data"
                   name: prometheus-data
                 - mountPath: "/etc/prometheus"
                   name: prometheus-config
