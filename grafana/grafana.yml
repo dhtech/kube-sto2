@@ -1,0 +1,38 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  labels:
+    k8s-app: grafana
+  name: grafana
+  namespace: monitoring
+spec:
+  replicas: 1
+  serviceName: "grafana"
+  template:
+    metadata:
+      labels:
+        k8s-app: grafana
+    spec:
+      containers:
+      - image: grafana/grafana:latest
+        imagePullPolicy: Always
+        name: grafana
+        volumeMounts:
+          - mountPath: "/var/lib/grafana"
+            name: grafana-data
+        env:
+          - name: GF_AUTH_BASIC_ENABLED
+            value: "true"
+          - name: GF_USERS_ALLOW_SIGN_UP
+            value: "false"
+          - name: GF_AUTH_ANONYMOUS_ENABLED
+            value: "false"
+        readinessProbe:
+          httpGet:
+            path: /login
+            port: 3000
+      restartPolicy: Always
+      volumes:
+        - name: grafana-data
+          persistentVolumeClaim:
+            claimName: grafana-data
