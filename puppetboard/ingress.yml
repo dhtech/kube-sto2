@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: puppetboard-ingress
+  namespace: puppet
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - secretName: puppetboard-ingress-tls
+    hosts:
+    - puppetboard.tech.dreamhack.se
+  rules:
+  - host: puppetboard.tech.dreamhack.se
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: puppetboard-http
+          servicePort: 80
