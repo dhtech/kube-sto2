@@ -21,6 +21,11 @@ spec:
             name: kjell-conf
           - mountPath: "/data"
             name: kjell-sshd-key
+        env:
+          - name: KJELL_SUDO_GROUP
+            value: "services-colo"
+          - name: KJELL_ACCESS_GROUP
+            value: "skalman-tech-colo"
         readinessProbe:
           tcpSocket:
             port: 22
