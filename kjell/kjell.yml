@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: kjell
+  name: kjell
+  namespace: kjell
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: kjell
+    spec:
+      containers:
+      - image: quay.io/dhtech/kjell
+        imagePullPolicy: Always
+        name: kjell
+        volumeMounts:
+          - mountPath: "/config"
+            name: kjell-conf
+          - mountPath: "/data"
+            name: kjell-ssh-data
+        readinessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 15
+      restartPolicy: Always
+      volumes:
+        - name: kjell-conf
+          configMap:
+            name: kjell-conf
+        - name: kjell-ssh-data
+          persistentVolumeClaim:
+            claimName: kjell-ssh-data
