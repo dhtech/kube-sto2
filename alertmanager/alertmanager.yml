@@ -1,5 +1,5 @@
 apiVersion: apps/v1beta1
-kind: StatefulSet
+kind: Deployment
 metadata:
     labels:
         k8s-app: alertmanager
@@ -7,7 +7,6 @@ metadata:
     namespace: monitoring
 spec:
     replicas: 1
-    serviceName: "alertmanager"
     template:
         metadata:
             labels:
@@ -22,6 +21,12 @@ spec:
               volumeMounts:
                 - mountPath: "/etc/alertmanager"
                   name: alertmanager-config
+            - image: quay.io/dhtech/dhauth
+              imagePullPolicy: Always
+              name: dhauth
+              env:
+              - name: APACHE_PROXY_PORT
+                value: "9093"
             restartPolicy: Always
             volumes:
                 - name: alertmanager-config
