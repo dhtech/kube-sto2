@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: storage
+  name: storage
+  namespace: kjell
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: storage
+    spec:
+      containers:
+      - image: quay.io/dhtech/kjell
+        imagePullPolicy: Always
+        name: kjell
+        volumeMounts:
+          - mountPath: "/home"
+            name: storage-data
+          - mountPath: "/data"
+            name: kjell-sshd-key
+        readinessProbe:
+          tcpSocket:
+            port: 22
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 15
+      restartPolicy: Always
+      volumes:
+        - name: storage-data
+          persistentVolumeClaim:
+            claimName: storage-data
+        - name: kjell-sshd-key
+          secret:
+            secretName: kjell-sshd-key
+            defaultMode: 256 # 0400 in decimal
