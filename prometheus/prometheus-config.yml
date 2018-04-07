@@ -16,7 +16,7 @@ data:
       alertmanagers:
       - static_configs:
         - targets:
-           - alert.tech.dreamhack.se:9093
+           - alert-sto2.monitoring
 
     scrape_configs:
     - job_name: 'kubernetes-apiservers'
