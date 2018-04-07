@@ -20,11 +20,10 @@ spec:
           - mountPath: "/config"
             name: kjell-conf
           - mountPath: "/data"
-            name: kjell-ssh-data
+            name: kjell-sshd-key
         readinessProbe:
           tcpSocket:
             port: 22
-          initialDelaySeconds: 5
           periodSeconds: 10
         livenessProbe:
           tcpSocket:
@@ -35,6 +34,7 @@ spec:
         - name: kjell-conf
           configMap:
             name: kjell-conf
-        - name: kjell-ssh-data
-          persistentVolumeClaim:
-            claimName: kjell-ssh-data
+        - name: kjell-sshd-key
+          secret:
+            secretName: kjell-sshd-key
+            defaultMode: 256 # 0400 in decimal
