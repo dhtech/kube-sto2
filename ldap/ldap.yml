@@ -31,12 +31,10 @@ spec:
         env:
           - name: CA
             value: /etc/ssl/ldap/ca.crt
-          - name: CERTFILE
-            value: /etc/ssl/ldap/server.crt
-          - name: KEYFILE
-            value: /etc/ssl/ldap/server.key
           - name: LOGLEVEL
             value: "0x4120"
+          - name: PROTOCOLS
+            value: "ldap:///"
           - name: MASTER
             valueFrom:
               secretKeyRef:

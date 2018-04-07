@@ -8,9 +8,9 @@ metadata:
 spec:
   ports:
   - name: ldap
-    port: 636
+    port: 389
     protocol: TCP
-    targetPort: 636
+    targetPort: 389
   selector:
     k8s-app: ldap
   sessionAffinity: None
