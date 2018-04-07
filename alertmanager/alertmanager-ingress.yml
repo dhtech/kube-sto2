@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: alertmanager-ingress
+    namespace: monitoring
+    annotations:
+        kubernetes.io/tls-acme: "true"
+spec:
+    tls:
+    - secretName: alertmanager-ingress-tls
+      hosts:
+      - alert-sto2.tech.dreamhack.se
+    rules:
+    - host: alert-sto2.tech.dreamhack.se
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: alertmanager
+            servicePort: 80

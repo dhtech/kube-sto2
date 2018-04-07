@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+    labels:
+        k8s-app: alertmanager
+    name: alertmanager
+    namespace: monitoring
+spec:
+    replicas: 1
+    serviceName: "alertmanager"
+    template:
+        metadata:
+            labels:
+                k8s-app: alertmanager
+        spec:
+            containers:
+            - image: prom/alertmanager
+              imagePullPolicy: Always
+              name: prometheus
+              args:
+              - --config.file=/etc/alertmanager/alertmanager.yml
+              volumeMounts:
+                - mountPath: "/etc/alertmanager"
+                  name: alertmanager-config
+            restartPolicy: Always
+            volumes:
+                - name: alertmanager-config
+                  configMap:
+                    name: alertmanager-config
