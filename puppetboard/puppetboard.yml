@@ -13,6 +13,12 @@ spec:
         k8s-app: puppetboard
     spec:
       containers:
+      - image: quay.io/dhtech/dhauth
+        imagePullPolicy: Always
+        name: dhauth
+        env:
+        - name: APACHE_PROXY_PORT
+          value: "8080"
       - image: quay.io/dhtech/puppetboard
         imagePullPolicy: Always
         name: puppetboard
@@ -20,6 +26,8 @@ spec:
           - mountPath: "/puppetdb-keys"
             name: puppetdb-keys
         env:
+          - name: PUPPETBOARD_PORT
+            value: "8080"
           - name: PUPPETDB_HOST
             value: "puppet.tech.dreamhack.se"
           - name: PUPPETDB_PORT
@@ -39,12 +47,12 @@ spec:
         readinessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 8080
           periodSeconds: 10
         livenessProbe:
           httpGet:
             path: /
-            port: 80
+            port: 8080
           initialDelaySeconds: 15
       restartPolicy: Always
       volumes:
