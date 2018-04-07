@@ -17,15 +17,31 @@ spec:
             - image: prom/prometheus
               imagePullPolicy: Always
               name: prometheus
+              securityContext:
+                 runAsUser: 0
+              #command:
+              #- "/bin/sleep"
+              #args:
+              #- "3600"
               args:
                 - --config.file=/etc/prometheus/prometheus.yml
-                - --storage.tsdb.path=/prometheus
+                - --storage.tsdb.path=/prometheus/data
                 - --storage.tsdb.retention=8760h
               volumeMounts:
-                - mountPath: "/prometheus/data"
+                - mountPath: "/prometheus"
                   name: prometheus-data
                 - mountPath: "/etc/prometheus"
                   name: prometheus-config
+              #lifecycle:
+              #  postStart:
+              #    exec:
+              #      command: ["/bin/mkdir", "-p", "/prometheus/data"]
+            - image: quay.io/dhtech/dhauth
+              imagePullPolicy: Always
+              name: dhauth
+              env:
+              - name: APACHE_PROXY_PORT
+                value: "9090" 
             restartPolicy: Always
             volumes:
                 - name: prometheus-config

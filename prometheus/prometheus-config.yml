@@ -16,9 +16,26 @@ data:
       alertmanagers:
       - static_configs:
         - targets:
-           - alert-sto2.monitoring
+           - alertmanager.monitoring
+
 
     scrape_configs:
+    - job_name: 'kubernetes-node_exporter'
+
+      kubernetes_sd_configs:
+      - role: node
+
+      scheme: http
+
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: __address__
+        replacement: $1:9100
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: __metrics_path__
+        replacement: /metrics
+
+
     - job_name: 'kubernetes-apiservers'
 
       kubernetes_sd_configs:
@@ -47,6 +64,13 @@ data:
       kubernetes_sd_configs:
       - role: node
 
+      relabel_configs:
+      - target_label: __address__
+        replacement: kubernetes.default
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: __metrics_path__
+        replacement: /api/v1/nodes/$1/proxy/metrics
+
 
     - job_name: 'kubernetes-cadvisor'
 
@@ -58,6 +82,13 @@ data:
 
       kubernetes_sd_configs:
       - role: node
+
+      relabel_configs:
+      - target_label: __address__
+        replacement: kubernetes.default
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: __metrics_path__
+        replacement: /api/v1/nodes/$1/proxy/metrics/cadvisor 
 
 
     - job_name: 'kubernetes-service-endpoints'
