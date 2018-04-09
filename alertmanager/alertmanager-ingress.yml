@@ -16,5 +16,5 @@ spec:
         paths:
         - path: /
           backend:
-            serviceName: alertmanager
+            serviceName: alertmanager-ext
             servicePort: 80

@@ -19,10 +19,6 @@ spec:
               name: prometheus
               securityContext:
                  runAsUser: 0
-              #command:
-              #- "/bin/sleep"
-              #args:
-              #- "3600"
               args:
                 - --config.file=/etc/prometheus/prometheus.yml
                 - --storage.tsdb.path=/prometheus/data
@@ -32,16 +28,14 @@ spec:
                   name: prometheus-data
                 - mountPath: "/etc/prometheus"
                   name: prometheus-config
-              #lifecycle:
-              #  postStart:
-              #    exec:
-              #      command: ["/bin/mkdir", "-p", "/prometheus/data"]
             - image: quay.io/dhtech/dhauth
               imagePullPolicy: Always
               name: dhauth
               env:
               - name: APACHE_PROXY_PORT
                 value: "9090" 
+              - name: LDAP_GROUP
+                value: "cn=prom-colo,ou=groups,dc=tech,dc=dreamhack,dc=se"
             restartPolicy: Always
             volumes:
                 - name: prometheus-config

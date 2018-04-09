@@ -27,6 +27,8 @@ spec:
               env:
               - name: APACHE_PROXY_PORT
                 value: "9093"
+              - name: LDAP_GROUP
+                value: "cn=services,ou=groups,dc=tech,dc=dreamhack,dc=se"
             restartPolicy: Always
             volumes:
                 - name: alertmanager-config
