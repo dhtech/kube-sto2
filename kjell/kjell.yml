@@ -12,6 +12,7 @@ spec:
       labels:
         k8s-app: kjell
     spec:
+      serviceAccountName: kjell-master
       containers:
       - image: quay.io/dhtech/kjell
         imagePullPolicy: Always
