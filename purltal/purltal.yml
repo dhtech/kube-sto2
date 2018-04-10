@@ -1,0 +1,34 @@
+apiVersion: apps/v1beta1
+kind: Deployment 
+metadata:
+    labels:
+        k8s-app: purltal
+    name: purltal
+    namespace: purltal
+spec:
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                k8s-app: purltal
+        spec:
+            containers:
+            - image: quay.io/dhtech/purltal
+              imagePullPolicy: Always
+              name: purltal
+              volumeMounts:
+                - mountPath: "/app/urls"
+                  name: purltal-config
+            - image: quay.io/dhtech/dhauth
+              imagePullPolicy: Always
+              name: dhauth
+              env:
+              - name: APACHE_PROXY_PORT
+                value: "5001" 
+              - name: LDAP_GROUP
+                value: "cn=tech-dhs18,ou=groups,dc=tech,dc=dreamhack,dc=se"
+            restartPolicy: Always
+            volumes:
+                - name: purltal-config
+                  configMap:
+                    name: purltal-config

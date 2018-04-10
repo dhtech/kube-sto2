@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: purltal-ingress
+  namespace: purltal
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - secretName: purltal-ingress-tls
+    hosts:
+    - purltal.tech.dreamhack.se
+  rules:
+  - host: purltal.tech.dreamhack.se
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: purltal
+          servicePort: 80
