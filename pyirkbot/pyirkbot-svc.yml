@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pyirkbot
+  namespace: pyirkbot
+  labels:
+    k8s-app: pyirkbot
+spec:
+  externalIPs:
+  - 77.80.255.104
+  ports:
+  - port: 9007
+    protocol: UDP
+    targetPort: 9007
+  selector:
+    k8s-app: pyirkbot
+  type: ClusterIP
+

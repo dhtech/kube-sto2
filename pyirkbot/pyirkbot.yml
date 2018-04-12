@@ -1,0 +1,85 @@
+apiVersion: apps/v1beta1
+kind: Deployment 
+metadata:
+    labels:
+        k8s-app: pyirkbot
+    name: pyirkbot
+    namespace: pyirkbot
+spec:
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                k8s-app: pyirkbot
+        spec:
+            containers:
+            - image: quay.io/dhtech/pyirkbot
+              imagePullPolicy: Always
+              name: pyirkbot
+              env:
+              - name: IRC_SERVER
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: IRC_SERVER
+              - name: IRC_SERVER_PASSWORD
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: IRC_SERVER_PASSWORD
+              - name: IRC_SERVER_PORT
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: IRC_SERVER_PORT
+              - name: IRC_CHANNELS
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: IRC_CHANNELS
+              - name: ADMIN_CHANNEL
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: ADMIN_CHANNEL
+              - name: ADMIN_NICKS
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: ADMIN_NICKS
+              - name: LDAP_BASE
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: LDAP_BASE
+              - name: LDAP_SERVER
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: LDAP_SERVER
+              - name: SVN_USERNAME
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: SVN_USERNAME
+              - name: SVN_PASSWORD
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: SVN_PASSWORD
+              - name: SVN_TEAMS
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: SVN_TEAMS
+              - name: UDP_CHANNEL
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: UDP_CHANNEL
+              - name: LOAD_PLUGINS
+                valueFrom:
+                    secretKeyRef:
+                        name: pyirkbot-secret
+                        key: LOAD_PLUGINS
+            restartPolicy: Always
