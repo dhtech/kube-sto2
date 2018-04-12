@@ -17,6 +17,8 @@ spec:
               imagePullPolicy: Always
               name: pyirkbot
               env:
+              - name: KONFIG_NAMESPACE
+                value: pyirkbot
               - name: IRC_SERVER
                 valueFrom:
                     secretKeyRef:
