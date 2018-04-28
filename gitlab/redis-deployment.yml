@@ -1,0 +1,36 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  labels:
+      k8s-app: gitlab
+  name: gitlab-redis
+  namespace: gitlab
+spec:
+  replicas: 1
+  serviceName: "gitlab-redis"
+  template:
+    metadata:
+      labels:
+        k8s-app: grafana
+    spec:
+      containers:
+      - name: redis
+        image: redis:4
+        ports:
+        - name: redis
+          containerPort: 6379
+        volumeMounts:
+        - mountPath: "/var/lib/redis"
+          name: redis-data
+        livenessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+      restartPolicy: Always
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: gitlab-redis-data

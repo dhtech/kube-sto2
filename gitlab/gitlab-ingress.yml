@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    labels:
+        k8s-app: gitlab
+    name: gitlab-ingress
+    namespace: gitlab
+    annotations:
+        kubernetes.io/tls-acme: "true"
+spec:
+    tls:
+    - secretName: gitlab-ingress-tls
+      hosts:
+      - gitlab.tech.dreamhack.se
+    rules:
+    - host: gitlab.tech.dreamhack.se
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: gitlab
+            servicePort: 80
