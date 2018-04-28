@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prometheus-fed-ingress
+  namespace: monitoring
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - secretName: prometheus-fed-ingress-tls
+    hosts:
+    - prom-fed.tech.dreamhack.se
+  rules:
+  - host: prom-fed.tech.dreamhack.se
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: prometheus-fed-ext
+          servicePort: 80

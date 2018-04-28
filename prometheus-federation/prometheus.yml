@@ -1,0 +1,46 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+    labels:
+        k8s-app: prometheus-fed
+    name: prometheus-fed
+    namespace: monitoring
+spec:
+    replicas: 1
+    serviceName: "prometheus-fed"
+    template:
+        metadata:
+            labels:
+                k8s-app: prometheus-fed
+        spec:
+            containers:
+            - image: prom/prometheus
+              imagePullPolicy: Always
+              name: prometheus-fed
+              securityContext:
+                 runAsUser: 0
+              args:
+                - --config.file=/etc/prometheus/prometheus.yml
+                - --storage.tsdb.path=/prometheus/data
+                - --storage.tsdb.retention=365d
+              volumeMounts:
+                - mountPath: "/prometheus"
+                  name: prometheus-fed-data
+                - mountPath: "/etc/prometheus"
+                  name: prometheus-fed-config
+            - image: quay.io/dhtech/dhauth
+              imagePullPolicy: Always
+              name: dhauth
+              env:
+              - name: APACHE_PROXY_PORT
+                value: "9090" 
+              - name: LDAP_GROUP
+                value: "cn=prom-colo,ou=groups,dc=tech,dc=dreamhack,dc=se"
+            restartPolicy: Always
+            volumes:
+                - name: prometheus-fed-config
+                  configMap:
+                    name: prometheus-fed-config
+                - name: prometheus-fed-data
+                  persistentVolumeClaim:
+                    claimName: prometheus-fed-data
