@@ -12,9 +12,13 @@ data:
     external_url ENV['EXTERNAL_URL'];
     root_pass = ENV['GITLAB_ROOT_PASSWORD'];
     gitlab_rails['initial_root_password'] = root_pass unless root_pass.to_s == '';
-    postgresql['enable'] = false;
+    gitlab_rails['trusted_proxies'] = [ '10.0.0.0/8', '172.16.0.0/16' ]
     nginx['listen_port'] = 80
     nginx['listen_https'] = false
+    registry_external_url 'https://registry.tech.dreamhack.se'
+    registry_nginx['listen_port'] = 80
+    registry_nginx['listen_https'] = false
+    postgresql['enable'] = false;
     gitlab_rails['db_host'] = ENV['DB_HOST'];
     gitlab_rails['db_password'] = ENV['DB_PASSWORD'];
     gitlab_rails['db_username'] = ENV['DB_USER'];

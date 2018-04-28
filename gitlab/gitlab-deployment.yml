@@ -29,7 +29,7 @@ spec:
                         name: gitlab
                         key: gitlab-root-password
               - name: EXTERNAL_URL
-                value: "gitlab.tech.dreamhack.se"
+                value: "https://gitlab.tech.dreamhack.se"
               - name: DB_HOST
                 value: postgres.gitlab
               - name: DB_DATABASE
