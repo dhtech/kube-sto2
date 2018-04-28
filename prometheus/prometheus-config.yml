@@ -25,6 +25,13 @@ data:
       static_configs:
       - targets: ['localhost:9090']
 
+
+    - job_name: 'prometheus federation'
+
+      static_configs:
+      - targets: ['prometheus-fed.monitoring']
+
+
     - job_name: 'kubernetes-node_exporter'
 
       kubernetes_sd_configs:
