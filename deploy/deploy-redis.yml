@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta1
+kind: Deployment 
+metadata:
+  labels:
+    k8s-app: deploy-redis
+  name: deploy-redis
+  namespace: deploy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: deploy-redis
+    spec:
+      containers:
+      - image: quay.io/dhtech/deploy-redis
+        imagePullPolicy: Always
+        name: redis
+        volumeMounts:
+        - mountPath: "/etc/ssl/deploy-redis/"
+          name: ssl
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis-password
+              key: password
+      restartPolicy: Always
+      volumes:
+      - name: ssl
+        secret:
+          secretName: redis-ssl
