@@ -1,0 +1,55 @@
+apiVersion: apps/v1beta1
+kind: Deployment 
+metadata:
+  labels:
+    k8s-app: deploy-frontend
+  name: deploy-frontend
+  namespace: deploy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: deploy-frontend
+    spec:
+      containers:
+      - image: quay.io/dhtech/deploy-frontend
+        imagePullPolicy: Always
+        name: frontend
+        volumeMounts:
+        - mountPath: "/etc/ipplan/"
+          name: ipplan
+        - mountPath: "/etc/deploy/"
+          name: deploy-config
+      - image: quay.io/dhtech/dhauth
+        imagePullPolicy: Always
+        name: dhauth
+        env:
+        - name: APACHE_PROXY_PORT
+          value: "8080"
+        - name: LDAP_GROUP
+          value: "cn=prom-colo,ou=groups,dc=tech,dc=dreamhack,dc=se"
+      - image: quay.io/dhtech/ipplan
+        imagePullPolicy: Always
+        name: ipplan
+        volumeMounts:
+        - mountPath: "/etc/ipplan/"
+          name: ipplan
+        env:
+        - name: IPPLAN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: ipplan
+              key: username
+        - name: IPPLAN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ipplan
+              key: password
+      restartPolicy: Always
+      volumes:
+      - name: ipplan
+        emptyDir: {}
+      - name: deploy-config
+        secret:
+          secretName: deploy-config

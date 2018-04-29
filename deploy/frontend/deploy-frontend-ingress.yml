@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: deploy-frontend-ingress
+  namespace: deploy
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - secretName: deploy-frontend-ingress-tls
+    hosts:
+    - deploy-ui.tech.dreamhack.se
+  rules:
+  - host: deploy-ui.tech.dreamhack.se
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: deploy-frontend
+          servicePort: 80
