@@ -1,0 +1,47 @@
+apiVersion: apps/v1beta1
+kind: Deployment 
+metadata:
+  labels:
+    k8s-app: deploy-syslog-receiver
+  name: deploy-syslog-receiver
+  namespace: deploy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: deploy-syslog-receiver
+    spec:
+      containers:
+      - image: quay.io/dhtech/deploy-syslog-receiver
+        imagePullPolicy: Always
+        name: syslog-receiver
+        volumeMounts:
+        - mountPath: "/etc/ipplan/"
+          name: ipplan
+        - mountPath: "/etc/deploy/"
+          name: deploy-config
+      - image: quay.io/dhtech/ipplan
+        imagePullPolicy: Always
+        name: ipplan
+        volumeMounts:
+        - mountPath: "/etc/ipplan/"
+          name: ipplan
+        env:
+        - name: IPPLAN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: ipplan
+              key: username
+        - name: IPPLAN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ipplan
+              key: password
+      restartPolicy: Always
+      volumes:
+      - name: ipplan
+        emptyDir: {}
+      - name: deploy-config
+        secret:
+          secretName: deploy-config

@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploy-syslog
+  namespace: deploy
+  labels:
+    k8s-app: deploy-syslog-receiver
+spec:
+  externalIPs:
+  - 77.80.255.100
+  ports:
+  - port: 514
+    protocol: UDP
+    targetPort: 514
+  selector:
+    k8s-app: deploy-syslog-receiver
+  type: ClusterIP
+
