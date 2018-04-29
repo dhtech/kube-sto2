@@ -1,5 +1,5 @@
 apiVersion: apps/v1beta1
-kind: StatefulSet
+kind: Deployment
 metadata:
   labels:
       k8s-app: gitlab
@@ -7,7 +7,6 @@ metadata:
   namespace: gitlab
 spec:
   replicas: 1
-  serviceName: "gitlab-redis"
   template:
     metadata:
       labels:
@@ -15,7 +14,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: redis:4
+        image: redis:latest
         ports:
         - name: redis
           containerPort: 6379

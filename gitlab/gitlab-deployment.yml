@@ -1,5 +1,5 @@
 apiVersion: apps/v1beta1
-kind: StatefulSet
+kind: Deployment
 metadata:
     labels:
         k8s-app: gitlab
@@ -7,7 +7,6 @@ metadata:
     namespace: gitlab
 spec:
     replicas: 1
-    serviceName: "gitlab"
     template:
         metadata:
           labels:
@@ -16,31 +15,71 @@ spec:
             containers:
             - name: gitlab-ee
               image: gitlab/gitlab-ee
-              imagePullPolicy: always
+              imagePullPolicy: IfNotPresent
               env:
-              - name: GITLAB_ONNIBUS_CONFIG
-                valueFrom:
-                    configMapKeyRef:
-                        name: gitlab-configmap
-                        key: gitlab_omnibus_config
+              - name: GITLAB_OMNIBUS_CONFIG
+                value: |
+                    external_url "https://gitlab.tech.dreamhack.se"
+                    root_pass = ENV['GITLAB_ROOT_PASSWORD']
+                    gitlab_rails['initial_root_password'] = root_pass unless root_pass.to_s == ''
+
+                    nginx['listen_port'] = 80
+                    nginx['listen_https'] = false
+
+                    postgresql['enable'] = false
+                    gitlab_rails['db_host'] = ENV['DB_HOST']
+                    gitlab_rails['db_adapter'] = 'postgresql'
+                    gitlab_rails['db_encoding'] = 'utf8'
+                    gitlab_rails['db_username'] = "gitlab"
+                    gitlab_rails['db_database'] = ENV['DB_DATABASE']
+                    gitlab_rails['db_port'] = 5432
+                    gitlab_rails['db_password'] = ENV['DB_PASSWORD']
+
+                    redis['enable'] = false
+                    gitlab_rails['redis_host'] = redis.gitlab
+
+                    manage_accounts['enable'] = true
+                    manage_storage_directories['manage_etc'] = false
+
+                    gitlab_shell['auth_file'] = '/gitlab-data/ssh/authorized_keys'
+                    git_data_dirs({ "default" => { "path" => "/gitlab-data/git-data" } })
+                    gitlab_rails['shared_path'] = '/gitlab-data/shared'
+                    gitlab_rails['uploads_directory'] = '/gitlab-data/uploads'
+                    gitlab_ci['builds_directory'] = '/gitlab-data/builds'
+                    gitlab_rails['registry_path'] = '/gitlab-registry'
+                    gitlab_rails['trusted_proxies'] = [ '10.0.0.0/8', '172.16.0.0/16' ]
+
+                    prometheus['enable'] = false
+
               - name: GITLAB_ROOT_PASSWORD
                 valueFrom:
                     secretKeyRef:
                         name: gitlab
                         key: gitlab-root-password
-              - name: EXTERNAL_URL
-                value: "https://gitlab.tech.dreamhack.se"
+              - name: GITLAB_EE_LICENSE
+                valueFrom:
+                    secretKeyRef:
+                        name: gitlab-license
+                        key: license
               - name: DB_HOST
                 value: postgres.gitlab
               - name: DB_DATABASE
-                value: "gitlab"
+                value: gitlab
               - name: DB_PASSWORD
                 valueFrom:
                     secretKeyRef:
                         name: gitlab
-                        key: DB_PASSWORD
+                        key: DB_PASS
               - name: REDIS_HOST
                 value: redis.gitlab
+              - name: GITLAB_POST_RECONFIGURE_CODE
+                value: |
+                    include Gitlab::CurrentSettings
+
+                    License.first_or_create(data: ENV['GITLAB_EE_LICENSE'])
+              - name: GITLAB_POST_RECONFIGURE_SCRIPT
+                value: |
+                    /opt/gitlab/bin/gitlab-rails runner -e production "$GITLAB_POST_RECONFIGURE_CODE"
               ports:
               - name: ssh
                 containerPort: 22
@@ -52,7 +91,7 @@ spec:
                 httpGet:
                     path: /help
                     port: http
-                initialDelaySeconds: 200
+                initialDelaySeconds: 600
                 timeoutSeconds: 1
                 periodSeconds: 10
                 successThreshold: 1

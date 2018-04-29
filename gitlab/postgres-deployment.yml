@@ -1,5 +1,5 @@
 apiVersion: apps/v1beta1
-kind: StatefulSet
+kind: Deployment
 metadata:
     labels:
         k8s-app: gitlab
@@ -7,7 +7,6 @@ metadata:
     namespace: gitlab
 spec:
     replicas: 1
-    serviceName: "gitlab-postgres"
     template:
         metadata:
             labels:
