@@ -67,3 +67,6 @@ data:
       },
       'sync_ssh_keys' => 'sshPublicKey',
     }}
+
+    # Nicer brighter theme as default
+    gitlab_rails['gitlab_default_theme'] = 3
