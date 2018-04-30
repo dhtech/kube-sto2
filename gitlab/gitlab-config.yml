@@ -3,27 +3,46 @@ kind: ConfigMap
 metadata:
     labels:
         k8s-app: gitlab
-    name: gitlab-configmap
+    name: gitlab-config
     namespace: gitlab
 
 data:
-
   gitlab_omnibus_config: |
+    external_url "https://gitlab.tech.dreamhack.se"
+    registry_external_url "https://registry.tech.dreamhack.se"
+    root_pass = ENV['GITLAB_ROOT_PASSWORD']
+    gitlab_rails['initial_root_password'] = root_pass unless root_pass.to_s == ''
 
-    external_url 'https://gitlab.tech.dreamhack.se';
-    root_pass = ENV['GITLAB_ROOT_PASSWORD'];
-    gitlab_rails['initial_root_password'] = root_pass unless root_pass.to_s == '';
+    nginx['enable'] = false
+    registry_nginx['enable'] = false
+
+    gitlab_workhorse['listen_network'] = 'tcp'
+    gitlab_workhorse['listen_addr'] = '0.0.0.0:8005'
+
+    registry['registry_http_addr'] = '0.0.0.0:8105'
+
+    postgresql['enable'] = false
+    gitlab_rails['db_host'] = ENV['DB_HOST']
+    gitlab_rails['db_username'] = 'gitlab'
+    gitlab_rails['db_database'] = ENV['DB_DATABASE']
+    gitlab_rails['db_port'] = 5432
+    gitlab_rails['db_password'] = ENV['DB_PASSWORD']
+
+    redis['enable'] = false
+    gitlab_rails['redis_host'] = ENV['REDIS_HOST']
+
+    manage_accounts['enable'] = true
+    manage_storage_directories['manage_etc'] = false
+
+    gitlab_shell['auth_file'] = '/gitlab-data/ssh/authorized_keys'
+    git_data_dirs({ "default" => { "path" => "/gitlab-data/git-data" } })
+    gitlab_rails['shared_path'] = '/gitlab-data/shared'
+    gitlab_rails['uploads_directory'] = '/gitlab-data/uploads'
+    gitlab_ci['builds_directory'] = '/gitlab-data/builds'
+    gitlab_rails['registry_path'] = '/gitlab-registry'
     gitlab_rails['trusted_proxies'] = [ '10.0.0.0/8', '172.16.0.0/16' ]
 
-    nginx['listen_port'] = 80;
-    nginx['listen_https'] = false;
-
-    unicorn['worker_processes'] = 2;
-    manage_accounts['enable'] = true;
-    manage_storage_directories['manage_etc'] = false;
-
-    gitlab_shell['auth_file'] = "/gitlab-data/ssh/authorized_keys";
-    git_data_dirs({ "default" => { "path" => "/gitlab-data/git-data" } });
-    gitlab_rails['shared_path'] = '/gitlab-data/shared';
-    gitlab_rails['uploads_directory'] = '/gitlab-data/uploads';
-    gitlab_ci['builds_directory'] = '/gitlab-data/builds';
+    postgres_exporter['enable'] = false
+    redis_exporter['enable'] = false
+    node_exporter['enable'] = false
+    prometheus['enable'] = false
