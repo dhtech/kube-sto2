@@ -2,7 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   labels:
-    k8s-app: gitlab
+    k8s-app: redis
   name: redis-data
   namespace: gitlab
 spec:

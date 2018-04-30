@@ -2,7 +2,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
     labels:
-        k8s-app: gitlab
+        k8s-app: postgres
     name: postgres
     namespace: gitlab
 spec:
@@ -10,7 +10,7 @@ spec:
     template:
         metadata:
             labels:
-                k8s-app: gitlab
+                k8s-app: postgres
         spec:
             containers:
             - name: postgres

@@ -2,7 +2,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   labels:
-      k8s-app: gitlab
+      k8s-app: redis
   name: redis
   namespace: gitlab
 spec:

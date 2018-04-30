@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
     labels:
-        k8s-app: gitlab
+        k8s-app: postgres
     name: postgres-data
     namespace: gitlab
 spec:
