@@ -3,18 +3,19 @@ kind: Deployment
 metadata:
   labels:
       k8s-app: gitlab
-  name: gitlab-redis
+  name: redis
   namespace: gitlab
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        k8s-app: grafana
+        k8s-app: redis
     spec:
       containers:
       - name: redis
         image: redis:latest
+        imagePullPolicy: IfNotPresent
         ports:
         - name: redis
           containerPort: 6379
@@ -32,4 +33,4 @@ spec:
       volumes:
       - name: redis-data
         persistentVolumeClaim:
-          claimName: gitlab-redis-data
+          claimName: redis-data

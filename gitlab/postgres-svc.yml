@@ -3,7 +3,7 @@ kind: Service
 metadata:
     labels:
         k8s-app: gitlab
-    name: gitlab-postgres
+    name: postgres
     namespace: gitlab
 spec:
     ports:
@@ -11,4 +11,4 @@ spec:
       port: 5432
       targetPort: postgres
     selector:
-        name: gitlab-postgres
+        k8s-app: gitlab

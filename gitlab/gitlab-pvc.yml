@@ -25,4 +25,19 @@ spec:
     resources:
         requests:
             storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    labels:
+        k8s-app: gitlab
+    name: gitlab-registry
+    namespace: gitlab
+spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+        requests:
+            storage: 50Gi
+
 

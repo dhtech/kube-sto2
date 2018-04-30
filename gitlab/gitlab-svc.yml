@@ -7,9 +7,12 @@ metadata:
     namespace: gitlab
 spec:
     ports:
-    - port: 80
-      protocol: TCP
-      targetPort: 80
+    - name: registry
+      port: 8105
+      targetPort: registry
+    - name: workhorse
+      port: 8005
+      targetPort: workhorse
     selector:
         k8s-app: gitlab
     type: ClusterIP

@@ -12,6 +12,7 @@ spec:
     - secretName: gitlab-ingress-tls
       hosts:
       - gitlab.tech.dreamhack.se
+      - registry.tech.dreamhack.se
     rules:
     - host: gitlab.tech.dreamhack.se
       http:
@@ -19,4 +20,11 @@ spec:
         - path: /
           backend:
             serviceName: gitlab
-            servicePort: 80
+            servicePort: 8005
+    - host: registry.tech.dreamhack.se
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: gitlab
+            servicePort: 8105

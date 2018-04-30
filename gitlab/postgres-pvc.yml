@@ -3,11 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
     labels:
         k8s-app: gitlab
-    name: gitlab-postgres-data
+    name: postgres-data
     namespace: gitlab
 spec:
     accessModes:
     - ReadWriteOnce
     resources:
         requests:
-            storage: 5Gi
+            storage: 30Gi

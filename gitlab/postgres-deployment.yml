@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
     labels:
         k8s-app: gitlab
-    name: gitlab-postgres
+    name: postgres
     namespace: gitlab
 spec:
     replicas: 1
@@ -15,25 +15,31 @@ spec:
             containers:
             - name: postgres
               image: postgres:10
-              imagePullPolicy: Always
+              imagePullPolicy: IfNotPresent
               env:
-              - name: DB_USER
+              - name: POSTGRES_USER
                 value: gitlab
-              - name: DB_PASS
+              - name: POSTGRES_PASSWORD
                 valueFrom:
                     secretKeyRef:
                         name: gitlab
                         key: DB_PASS
-              - name: DB_NAME
-                value: gitlab
+              - name: POSTGRES_DB
+                name: gitlab
               - name: DB_EXTENSION
                 value: pg_trgm
+              - name: PGDATA
+                value: /var/lib/postgresql/data/pgdata
               ports:
               - name: postgres
                 containerPort: 5432
               volumeMounts:
-              - mountPath: "/var/lib/postgresql"
+              - mountPath: "/var/lib/postgresql/data"
                 name: data
+                subPath: postgres
+              - mountPath: "/docker-entrypoint-initdb.d"
+                name: initdb
+                readOnly: true
               livenessProbe:
                 exec:
                     command:
@@ -57,5 +63,7 @@ spec:
             volumes:
             - name: data
               persistentVolumeClaim:
-                claimName: gitlab-postgres-data
-
+                claimName: postgres-data
+            - name: initdb
+              configMap:
+                  name: postgres-initdb

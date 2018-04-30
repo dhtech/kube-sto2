@@ -3,7 +3,7 @@ kind: Service
 metadata:
     labels:
         k8s-app: gitlab
-    name: gitlab-redis
+    name: redis
     namespace: gitlab
 spec:
     ports:
@@ -11,4 +11,4 @@ spec:
       port: 6379
       targetPort: redis
     selector:
-        name: gitlab-redis
+        k8s-app: redis
