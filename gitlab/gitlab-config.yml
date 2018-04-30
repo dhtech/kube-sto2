@@ -46,3 +46,24 @@ data:
     redis_exporter['enable'] = false
     node_exporter['enable'] = false
     prometheus['enable'] = false
+
+    gitlab_rails['ldap_enabled'] = true
+    gitlab_rails['ldap_servers'] = {
+    'main' => {
+      'label' => 'dhtech ldap',
+      'host'  => 'ldap.ldap',
+      'port' => 389,
+      'uid' => 'uid',
+      'encryption' => 'plain',
+      'base' => 'dc=tech,dc=dreamhack,dc=se',
+      'group_base' => 'ou=groups,dc=tech,dc=dreamhack,dc=se',
+      'admin_group' => 'services-colo',
+      'active_directory' => false,
+      'attributes' => {
+        'username' => 'uid',
+        'email' => 'mail',
+        'first_name' => 'givenName',
+        'last_name' => 'sn',
+      },
+      'sync_ssh_keys' => 'sshPublicKey',
+    }}

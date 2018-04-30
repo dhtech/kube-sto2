@@ -6,6 +6,11 @@ metadata:
     name: gitlab
     namespace: gitlab
 spec:
+    strategy:
+        rollingUpdate:
+            maxSurge: 100%
+            maxUnavailable: 100%
+        type: RollingUpdate
     replicas: 1
     template:
         metadata:
