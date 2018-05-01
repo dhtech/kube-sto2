@@ -72,3 +72,13 @@ data:
 
     # Nicer brighter theme as default
     gitlab_rails['gitlab_default_theme'] = 3
+
+    # Github integration
+    gitlab_rails['omniauth_providers'] = [{
+        'name' => 'github',
+        'app_id' => ENV['GITHUB_APP_ID'],
+        'app_secret' => ENV['GITHUB_APP_SECRET'],
+        'url' => 'https://github.com/',
+        'args' => { 'scope' => 'user:email' }
+      }
+    ]
