@@ -42,8 +42,11 @@ data:
     gitlab_rails['registry_path'] = '/gitlab-registry'
     gitlab_rails['trusted_proxies'] = [ '10.0.0.0/8', '172.16.0.0/16' ]
 
-    prometheus_multiproc_dir = '/tmp/prometheus_multiproc_dir'
     prometheus_monitoring['enable'] = true
+    postgres_exporter['enable'] = true
+    redis_exporter['enable'] = true
+    gitlab_monitor['enable'] = true
+    prometheus['monitor_kubernetes'] = false
     gitlab_rails['monitoring_whitelist'] = [ '10.0.0.0/8', '172.16.0.0/16' ]
 
     gitlab_rails['ldap_enabled'] = true
