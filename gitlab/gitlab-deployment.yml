@@ -71,18 +71,22 @@ spec:
               - name: workhorse
                 containerPort: 8005
               livenessProbe:
-                httpGet:
-                    path: /-/liveness?token=ENV['GITLAB_HEALTH_TOKEN']
-                    port: 8005
+                exec:
+                  command:
+                    - /bin/sh
+                    - -c
+                    - "curl localhost:8005/-/liveness?token=${GITLAB_HEALTH_TOKEN}"
                 initialDelaySeconds: 600
                 timeoutSeconds: 1
                 periodSeconds: 10
                 successThreshold: 1
                 failureThreshold: 10
               readinessProbe:
-                httpGet:
-                    path: /-/readiness?token=ENV['GITLAB_HEALTH_TOKEN']
-                    port: 8005
+                exec:
+                  command:
+                    - /bin/sh
+                    - -c
+                    - "curl localhost:8005/-/readiness?token=${GITLAB_HEALTH_TOKEN}"
                 initialDelaySeconds: 30
                 timeoutSeconds: 1
                 periodSeconds: 10
