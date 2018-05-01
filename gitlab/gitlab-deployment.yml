@@ -72,7 +72,7 @@ spec:
                 containerPort: 8005
               livenessProbe:
                 httpGet:
-                    path: /-/readiness?token=ENV['GITLAB_HEALTH_TOKEN']
+                    path: /-/liveness?token=ENV['GITLAB_HEALTH_TOKEN']
                     port: 8005
                 initialDelaySeconds: 600
                 timeoutSeconds: 1
