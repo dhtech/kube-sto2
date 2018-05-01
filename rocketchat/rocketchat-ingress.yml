@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    labels:
+        k8s-app: rocketchat
+    name: rocketchat-ingress
+    namespace: rocketchat
+    annotations:
+        kubernetes.io/tls-acme: "true"
+spec:
+    tls:
+    - secretName: rocketchat-ingress-tls
+      hosts:
+      - rocketchat.tech.dreamhack.se
+    rules:
+    - host: rocketchat.tech.dreamhack.se
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: rocketchat
+            servicePort: 3000

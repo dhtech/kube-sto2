@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: mongodb
+  name: mongodb
+  namespace: rocketchat
+spec:
+  ports:
+  - name: mongodb
+    port: 27017
+    targetPort: 27017
+  selector:
+    k8s-app: mongodb
