@@ -21,8 +21,6 @@ spec:
             - name: gitlab-ee
               image: gitlab/gitlab-ee
               imagePullPolicy: IfNotPresent
-              #command: ["/bin/bash", "-c",
-              #"sed -i \"s/environment ({'GITLAB_ROOT_PASSWORD' => initial_root_password }) if initial_root_password/environment ({'GITLAB_ROOT_PASSWORD' => initial_root_password})/g\" /opt/gitlab/embedded/cookbooks/gitlab/recipes/database_migrations.rb && exec /assets/wrapper"]
               env:
               - name: GITLAB_OMNIBUS_CONFIG
                 valueFrom:
@@ -34,6 +32,11 @@ spec:
                     secretKeyRef:
                         name: gitlab
                         key: gitlab-root-password
+              - name: GITLAB_HEALTH_TOKEN
+                valueFrom:
+                    secretKeyRef:
+                        name: gitlab
+                        key: health-token
               - name: GITLAB_EE_LICENSE
                 valueFrom:
                     secretKeyRef:
@@ -55,7 +58,7 @@ spec:
                     include Gitlab::CurrentSettings
 
                     License.first_or_create(data: ENV['GITLAB_EE_LICENSE'])
-                    Gitlab::CurrentSettings.current_application_settings.update_attribute(:health_check_access_token, 'PbQe3jsfm89ce8Lz')
+                    Gitlab::CurrentSettings.current_application_settings.update_attribute(:health_check_access_token, ENV['GITLAB_HEALTH_TOKEN'])
 
               - name: GITLAB_POST_RECONFIGURE_SCRIPT
                 value: |
@@ -76,15 +79,15 @@ spec:
                 #  periodSeconds: 10
                 #  successThreshold: 1
                 #  failureThreshold: 10
-                #readinessProbe:
-                #rehttpGet:
-                #re    path: /health_check?token=PbQe3jsfm89ce8Lz
-                #re    port: 8005
-                #reinitialDelaySeconds: 30
-                #retimeoutSeconds: 1
-                #reperiodSeconds: 10
-                #resuccessThreshold: 1
-                #refailureThreshold: 3
+              readinessProbe:
+                httpGet:
+                    path: /-/readiness?token=ENV['GITLAB_HEALTH_TOKEN']
+                    port: 8005
+                initialDelaySeconds: 30
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
               volumeMounts:
               - name: gitlab-etc
                 mountPath: /etc/gitlab
