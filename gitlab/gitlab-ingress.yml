@@ -7,6 +7,8 @@ metadata:
     namespace: gitlab
     annotations:
         kubernetes.io/tls-acme: "true"
+        # 4G for Git LFS
+        nginx.ingress.kubernetes.io/proxy-body-size: "4000m"
 spec:
     tls:
     - secretName: gitlab-ingress-tls
