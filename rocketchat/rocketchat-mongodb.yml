@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+  namespace: rocketchat
+  labels:
+    k8s-app: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: mongodb
+  template:
+    metadata:
+      labels:
+        k8s-app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:3.6.4
+        args:
+        - --smallfiles
+        - --auth
+        volumeMounts:
+        - mountPath: /data/db
+          name: data
+          subPath: mongo
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: mongodb-data
