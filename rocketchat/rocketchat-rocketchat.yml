@@ -24,5 +24,10 @@ spec:
             secretKeyRef:
               name: rocketchat
               key: mongodb-url
+        - name: MONGO_OPLOG_URL
+          valueFrom:
+            secretKeyRef:
+              name: rocketchat
+              key: mongodb-oplog-url
         - name: ROOT_URL
           value: https://rocketchat.tech.dreamhack.se

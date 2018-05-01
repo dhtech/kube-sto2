@@ -7,6 +7,11 @@ metadata:
     k8s-app: mongodb
 spec:
   replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 100%
+    type: RollingUpdate
   selector:
     matchLabels:
       k8s-app: mongodb
@@ -21,6 +26,8 @@ spec:
         args:
         - --smallfiles
         - --auth
+        - --replSet
+        - rs0
         volumeMounts:
         - mountPath: /data/db
           name: data
