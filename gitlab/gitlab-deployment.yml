@@ -70,15 +70,15 @@ spec:
                 containerPort: 8105
               - name: workhorse
                 containerPort: 8005
-                #livenessProbe:
-                #  httpGet:
-                #      path: /help
-                #      port: http
-                #  initialDelaySeconds: 600
-                #  timeoutSeconds: 1
-                #  periodSeconds: 10
-                #  successThreshold: 1
-                #  failureThreshold: 10
+              livenessProbe:
+                httpGet:
+                    path: /-/readiness?token=ENV['GITLAB_HEALTH_TOKEN']
+                    port: 8005
+                initialDelaySeconds: 600
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 10
               readinessProbe:
                 httpGet:
                     path: /-/readiness?token=ENV['GITLAB_HEALTH_TOKEN']
