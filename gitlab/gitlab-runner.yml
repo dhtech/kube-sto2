@@ -12,6 +12,7 @@ spec:
       labels:
         k8s-app: gitlab-runner
     spec:
+      serviceAccountName: gitlab-runner
       containers:
       - args:
         - run
