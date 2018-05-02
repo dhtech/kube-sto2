@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    k8s-app: gitlab
+  name: gitlab-plugins
+  namespace: gitlab
+data:
+  irc-bot.py: |
+    #!/opt/gitlab/embedded/bin/python3.4
+    import json
+    import os
+    import socket
+    import sys
+
+    event = json.load(sys.stdin)
+
+    with open('/tmp/events.log', 'a') as f:
+      f.write(json.dumps(event, indent=4, separators=(',', ': ')))
+
+    if event['event_name'] != 'push':
+      sys.exit(0)
+
+    user = event['user_username']
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    for idx, commit in enumerate(event['commits']):
+      # Gitlab sometimes sends duplicat events, so implement a super rough dedup
+      dedup = os.path.join('/tmp', '.dedup-' + commit['id'])
+      if os.path.isfile(dedup):
+        continue
+      with open(dedup, 'w') as f:
+        pass
+      changes = ' '.join(
+              ['A ' + x for x in commit.get('added', [])] +
+              ['M ' + x for x in commit.get('modified', [])] +
+              ['D ' + x for x in commit.get('removed', [])])
+      message = commit['message'].split('\n')[0][:60]
+      text = '{ns}/{repo} commit {commit} by {user}: {message} [{changes}]'.format(
+              ns=event['project']['namespace'],
+              repo=event['project']['name'],
+              commit=commit['id'][:6], user=user, message=message, changes=changes)
+      sock.sendto(text.encode(), ('ircbot.tech.dreamhack.se', 9007))
+      # Safety net
+      if idx > 9:
+        break
+    sock.close()

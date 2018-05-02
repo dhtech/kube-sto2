@@ -109,6 +109,8 @@ spec:
                 mountPath: /gitlab-data
               - name: gitlab-registry
                 mountPath: /gitlab-registry
+              - name: gitlab-plugins
+                mountPath: /opt/gitlab/embedded/service/gitlab-rails/plugins
             volumes:
             - name: gitlab-etc
               persistentVolumeClaim:
@@ -119,3 +121,7 @@ spec:
             - name: gitlab-registry
               persistentVolumeClaim:
                 claimName: gitlab-registry
+            - name: gitlab-plugins
+              configMap:
+                name: gitlab-plugins
+                defaultMode: 0755
