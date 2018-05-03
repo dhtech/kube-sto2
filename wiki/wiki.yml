@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: wiki
+  name: wiki
+  namespace: wiki
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: wiki
+    spec:
+      containers:
+        - image: registry.tech.dreamhack.se/tech/wiki:latest
+          imagePullPolicy: Always
+          name: wiki
+        - image: quay.io/dhtech/dhauth
+          imagePullPolicy: Always
+          name: dhauth
+          env:
+            - name: APACHE_PROXY_PORT
+              value: "8000"
+            - name: LDAP_GROUP
+              value: "cn=wiki,ou=groups,dc=tech,dc=dreamhack,dc=se"
+      imagePullSecrets:
+      - name: regcred
+      restartPolicy: Always
