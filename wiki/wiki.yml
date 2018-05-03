@@ -6,7 +6,12 @@ metadata:
   name: wiki
   namespace: wiki
 spec:
-  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  replicas: 2
   template:
     metadata:
       labels:
@@ -14,10 +19,10 @@ spec:
     spec:
       containers:
         - image: registry.tech.dreamhack.se/tech/wiki:latest
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           name: wiki
         - image: quay.io/dhtech/dhauth
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           name: dhauth
           env:
             - name: APACHE_PROXY_PORT
