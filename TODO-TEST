@@ -1,0 +1,9 @@
+* Labels are identical on metadata for resource, inside deplyoment, and selector
+* k8s-app is specified, app is not (or if we want to use just app since k8s is redundant)
+* only one resource per file
+* naming of file is "namespace/{name}-{resource-type}.yml
+or
+* naming of file is "namespace/{name}/{resource-type}.yml
+* YAML linting
+ * ordering of things?
+* kubectl validate
