@@ -2,12 +2,12 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: wiki-ingress
-  namespace: monitoring
+  namespace: wiki
   annotations:
     kubernetes.io/tls-acme: "true"
 spec:
   tls:
-  - secretName: grafana-ingress-tls
+  - secretName: wiki-ingress-tls
     hosts:
     - wiki.tech.dreamhack.se
   rules:
