@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
     labels:
@@ -12,6 +12,9 @@ spec:
             maxUnavailable: 100%
         type: RollingUpdate
     replicas: 1
+    selector:
+      matchLabels:
+        k8s-app: gitlab
     template:
         metadata:
           labels:

@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -7,18 +7,15 @@ metadata:
   namespace: puppet
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: puppetboard
   template:
     metadata:
       labels:
         k8s-app: puppetboard
     spec:
       containers:
-      - image: quay.io/dhtech/dhauth
-        imagePullPolicy: Always
-        name: dhauth
-        env:
-        - name: APACHE_PROXY_PORT
-          value: "8080"
       - image: quay.io/dhtech/puppetboard
         imagePullPolicy: Always
         name: puppetboard
@@ -54,6 +51,12 @@ spec:
             path: /
             port: 8080
           initialDelaySeconds: 15
+      - image: quay.io/dhtech/dhauth
+        imagePullPolicy: Always
+        name: dhauth
+        env:
+        - name: APACHE_PROXY_PORT
+          value: "8080"
       restartPolicy: Always
       volumes:
         - name: puppetdb-keys
