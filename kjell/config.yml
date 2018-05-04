@@ -4,5 +4,4 @@ metadata:
   name: kjell-conf
   namespace: kjell
 data:
-  banner: |-
-    Kubernetes Shell Server
+  banner: ''
