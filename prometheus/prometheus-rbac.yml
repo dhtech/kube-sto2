@@ -11,6 +11,7 @@ rules:
   - services
   - ingress
   - nodes
+  - nodes/proxy
   verbs:
   - get
   - list

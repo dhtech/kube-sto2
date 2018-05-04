@@ -22,10 +22,10 @@ spec:
     spec:
       containers:
         - image: registry.tech.dreamhack.se/tech/wiki:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           name: wiki
         - image: quay.io/dhtech/dhauth
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           name: dhauth
           env:
             - name: APACHE_PROXY_PORT
