@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: auth
+  name: auth
+  namespace: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: auth
+  template:
+    metadata:
+      labels:
+        k8s-app: auth
+    spec:
+      containers:
+        # TODO(bluecmd): Using pure image now for development.
+        # Using kjell as it has dumb-init.
+      - image: quay.io/dhtech/kjell
+        imagePullPolicy: Always
+        command: ["/usr/bin/dumb-init", "/bin/sleep", "31536000"]
+        name: auth
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          periodSeconds: 10
+        # TODO(bluecmd): Add livenessProbe
+      restartPolicy: Always

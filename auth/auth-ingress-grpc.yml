@@ -1,0 +1,24 @@
+# TODO(bluecmd): Ideally there would just be one ingress, see
+# https://github.com/kubernetes/ingress-nginx/issues/2492
+# or if we make the auth server be able to multiplex.
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: auth-grpc
+  namespace: auth
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/grpc-backend: "true"
+spec:
+  tls:
+  - secretName: auth-grpc-ingress-tls
+    hosts:
+    - auth-grpc.tech.dreamhack.se
+  rules:
+  - host: auth-grpc.tech.dreamhack.se
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: auth
+          servicePort: grpc

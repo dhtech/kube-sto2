@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: auth
+  namespace: auth
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - secretName: auth-ingress-tls
+    hosts:
+    - auth.tech.dreamhack.se
+  rules:
+  - host: auth.tech.dreamhack.se
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: auth
+          servicePort: http
