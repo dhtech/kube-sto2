@@ -1,12 +1,13 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
-  name: playground-ldap-admin
+  name: cluster-admin-dhtech
   namespace: playground
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: admin
+  name: cluster-admin
 subjects:
 - kind: Group
-  name: cn=tech,ou=groups,dc=event,dc=dreamhack,dc=se
+  name: cn=services,ou=groups,dc=event,dc=dreamhack,dc=se
+
