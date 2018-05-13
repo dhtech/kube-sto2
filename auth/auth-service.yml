@@ -8,10 +8,6 @@ metadata:
     k8s-app: auth
 spec:
   ports:
-  - port: 80
-    name: http
-    protocol: TCP
-    targetPort: 80
   - port: 1214
     name: grpc
     protocol: TCP

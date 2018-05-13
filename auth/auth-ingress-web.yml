@@ -1,0 +1,35 @@
+# This is only needed because nginx is trying to be too smart.
+# The backend is able to handle both non-GRPC and GRPC just fine, but nginx
+# does not.
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: auth-web
+  namespace: auth
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - secretName: auth-ingress-tls
+    hosts:
+    - auth.tech.dreamhack.se
+  rules:
+  - host: auth.tech.dreamhack.se
+    http:
+      paths:
+      - path: /login
+        backend:
+          serviceName: auth
+          servicePort: grpc
+      - path: /next
+        backend:
+          serviceName: auth
+          servicePort: grpc
+      - path: /review
+        backend:
+          serviceName: auth
+          servicePort: grpc
+      - path: /complete
+        backend:
+          serviceName: auth
+          servicePort: grpc

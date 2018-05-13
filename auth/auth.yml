@@ -16,15 +16,40 @@ spec:
         k8s-app: auth
     spec:
       containers:
-        # TODO(bluecmd): Using pure image now for development.
-        # Using kjell as it has dumb-init.
-      - image: quay.io/dhtech/kjell
+      - image: quay.io/dhtech/authservice
         imagePullPolicy: Always
-        command: ["/usr/bin/dumb-init", "/bin/sleep", "31536000"]
+        command:
+        - /go/bin/app
+        - --ldap_server=ldap-master.tech.dreamhack.se:636
+        - --ldap_server_name=ldap-master.tech.dreamhack.se
+        - --ldap_bind=uid=%s,ou=people,dc=tech,dc=dreamhack,dc=se
+        - --ldap_base=dc=dreamhack,dc=se
+        - --vault_renew=6h
+        - --audit_host=ircbot.tech.dreamhack.se:9007
+        - --vault_group_map={"cn=services,ou=groups,dc=event,dc=dreamhack,dc=se":"services","cn=tech,ou=groups,dc=event,dc=dreamhack,dc=se":"tech"}
+        env:
+        - name: VAULT_ADDR
+          value: https://vault.tech.dreamhack.se
+        - name: VAULT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: auth
+              key: vault-token
+              volumeMounts:
+        volumeMounts:
+        - mountPath: /etc/ssl/certs
+          name: ssl-certs
         name: auth
         readinessProbe:
           tcpSocket:
-            port: 80
+            port: 1214
           periodSeconds: 10
-        # TODO(bluecmd): Add livenessProbe
+        readinessProbe:
+          tcpSocket:
+            port: 1214
+          periodSeconds: 10
       restartPolicy: Always
+      volumes:
+      - name: ssl-certs
+        hostPath:
+          path: /etc/ssl/certs/

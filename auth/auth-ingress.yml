@@ -5,6 +5,7 @@ metadata:
   namespace: auth
   annotations:
     kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/grpc-backend: "true"
 spec:
   tls:
   - secretName: auth-ingress-tls
@@ -17,4 +18,4 @@ spec:
       - path: /
         backend:
           serviceName: auth
-          servicePort: http
+          servicePort: grpc
