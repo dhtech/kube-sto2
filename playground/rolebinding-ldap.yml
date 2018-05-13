@@ -1,13 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: playground-admin
+  name: playground-ldap-admin
   namespace: playground
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: admin
 subjects:
-- kind: ServiceAccount
-  name: playground
-  namespace: playground
+- kind: Group
+  name: cn=services,ou=groups,dc=event,dc=dreamhack,dc=se
