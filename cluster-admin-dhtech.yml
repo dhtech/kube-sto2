@@ -9,5 +9,5 @@ roleRef:
   name: cluster-admin
 subjects:
 - kind: Group
-  name: cn=services,ou=groups,dc=event,dc=dreamhack,dc=se
+  name: cn=services,ou=groups,dc=colo,dc=dreamhack,dc=se
 
