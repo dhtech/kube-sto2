@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: oops-ingress
+  namespace: monitoring
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - secretName: oops-ingress-tls
+    hosts:
+    - oops.tech.dreamhack.se
+  rules:
+  - host: oops.tech.dreamhack.se
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: oops
+          servicePort: 80

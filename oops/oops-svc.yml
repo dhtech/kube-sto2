@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oops
+  namespace: monitoring
+  labels:
+    k8s-app: oops
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    k8s-app: oops
+  type: ClusterIP
+
