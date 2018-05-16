@@ -14,7 +14,7 @@ spec:
         k8s-app: oops
     spec:
       containers:
-      - image: quay.io/dhtech/oops
+      - image: registry.tech.dreamhack.se/tech/oops:latest
         imagePullPolicy: Always
         name: oops
         volumeMounts:
