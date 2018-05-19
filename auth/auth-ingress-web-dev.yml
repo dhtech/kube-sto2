@@ -4,30 +4,30 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: auth-web
+  name: auth-web-dev
   namespace: auth
 spec:
   tls:
-  - secretName: auth-ingress-tls
+  - secretName: auth-ingress-tls-dev
     hosts:
-    - auth.tech.dreamhack.se
+    - auth-dev.tech.dreamhack.se
   rules:
-  - host: auth.tech.dreamhack.se
+  - host: auth-dev.tech.dreamhack.se
     http:
       paths:
       - path: /login
         backend:
-          serviceName: auth
+          serviceName: auth-dev
           servicePort: grpc
       - path: /next
         backend:
-          serviceName: auth
+          serviceName: auth-dev
           servicePort: grpc
       - path: /review
         backend:
-          serviceName: auth
+          serviceName: auth-dev
           servicePort: grpc
       - path: /complete
         backend:
-          serviceName: auth
+          serviceName: auth-dev
           servicePort: grpc

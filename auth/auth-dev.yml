@@ -3,23 +3,23 @@ kind: Deployment
 metadata:
   labels:
     k8s-app: auth
-    environment: prod
-  name: auth
+    environment: dev
+  name: auth-dev
   namespace: auth
 spec:
   replicas: 1
   selector:
     matchLabels:
       k8s-app: auth
-      environment: prod
+      environment: dev
   template:
     metadata:
       labels:
         k8s-app: auth
-        environment: prod
+        environment: dev
     spec:
       containers:
-      - image: quay.io/dhtech/authservice:v1.1
+      - image: quay.io/dhtech/authservice:latest
         imagePullPolicy: Always
         command:
         - /go/bin/app

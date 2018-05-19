@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth
+  name: auth-dev
   namespace: auth
   labels:
     k8s-app: auth
-    environment: prod
+    environment: dev
 spec:
   ports:
   - port: 1214
@@ -15,6 +15,6 @@ spec:
     targetPort: 1214
   selector:
     k8s-app: auth
-    environment: prod
+    environment: dev
   type: ClusterIP
 
