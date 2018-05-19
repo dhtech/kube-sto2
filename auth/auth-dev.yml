@@ -19,7 +19,7 @@ spec:
         environment: dev
     spec:
       containers:
-      - image: quay.io/dhtech/authservice:latest
+      - image: quay.io/dhtech/authservice
         imagePullPolicy: Always
         command:
         - /go/bin/app
