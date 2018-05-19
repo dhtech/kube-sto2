@@ -19,7 +19,7 @@ spec:
         environment: prod
     spec:
       containers:
-      - image: quay.io/dhtech/authservice:v1.2
+      - image: quay.io/dhtech/authservice:v1.2.1
         imagePullPolicy: Always
         command:
         - /go/bin/app
