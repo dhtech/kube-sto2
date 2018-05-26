@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+    labels:
+        k8s-app: enroll-user
+    name: enroll-user
+    namespace: enroll-user
+spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        k8s-app: enroll-user
+    template:
+        metadata:
+            labels:
+                k8s-app: enroll-user
+        spec:
+            containers:
+            - image: quay.io/dhtech/enroll-user
+              imagePullPolicy: Always
+              name: enroll-user
+            - image: quay.io/dhtech/dhauth
+              imagePullPolicy: Always
+              name: dhauth
+              env:
+              - name: APACHE_PROXY_PORT
+                value: "8080" 
+              - name: LDAP_GROUP
+                value: "cn=tech-dhs18,ou=groups,dc=tech,dc=dreamhack,dc=se"
+            restartPolicy: Always
+            volumes:
+                - name: enroll-user-config
+                  configMap:
+                    name: enroll-user-config

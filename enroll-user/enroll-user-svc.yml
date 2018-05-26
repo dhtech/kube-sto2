@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enroll-user
+  namespace: enroll-user
+  labels:
+    k8s-app: enroll-user
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    k8s-app: enroll-user
+  type: ClusterIP
+

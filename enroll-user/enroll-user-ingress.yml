@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: enroll-user
+  namespace: enroll-user
+spec:
+  tls:
+  - secretName: enroll-user-ingress-tls
+    hosts:
+    - enroll.tech.dreamhack.se
+  rules:
+  - host: enroll.tech.dreamhack.se
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: enroll-user
+          servicePort: 8080
