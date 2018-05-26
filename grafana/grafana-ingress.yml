@@ -1,10 +1,8 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: grafana-ingress
+  name: grafana
   namespace: monitoring
-  annotations:
-    kubernetes.io/tls-acme: "true"
 spec:
   tls:
   - secretName: grafana-ingress-tls
