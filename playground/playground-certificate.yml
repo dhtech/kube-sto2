@@ -1,0 +1,19 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: playground
+  namespace: playground
+spec:
+  secretName: playground-ingress-tls
+  issuerRef:
+    name: letsencrypt-dns
+    kind: ClusterIssuer
+  commonName: playground.tech.dreamhack.se
+  dnsNames:
+  - playground.tech.dreamhack.se
+  acme:
+    config:
+    - dns01:
+        provider: dhdns
+      domains:
+      - playground.tech.dreamhack.se
