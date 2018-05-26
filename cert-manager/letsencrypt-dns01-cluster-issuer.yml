@@ -1,0 +1,18 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dns
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: services@tech.dreamhack.se
+    privateKeySecretRef:
+      name: letsencrypt-private-key
+    dns01:
+      providers:
+        - name: dhdns
+          grpc:
+            service: dns:///dns.net.dreamhack.se
+            serverName: dns.net.dreamhack.se
+            timeout: 1m
+            interval: 10s
