@@ -8,9 +8,9 @@ metadata:
     k8s-app: enroll-user
 spec:
   ports:
-  - port: 8080
+  - port: 80
     protocol: TCP
-    targetPort: 8080
+    targetPort: 80
   selector:
     k8s-app: enroll-user
   type: ClusterIP

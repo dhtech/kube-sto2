@@ -28,7 +28,3 @@ spec:
               - name: LDAP_GROUP
                 value: "cn=tech-dhs18,ou=groups,dc=tech,dc=dreamhack,dc=se"
             restartPolicy: Always
-            volumes:
-                - name: enroll-user-config
-                  configMap:
-                    name: enroll-user-config
