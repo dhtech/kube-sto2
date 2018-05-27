@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fusiondirectory
+  namespace: ldap
+  labels:
+    k8s-app: fusiondirectory
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    k8s-app: fusiondirectory
+  type: ClusterIP

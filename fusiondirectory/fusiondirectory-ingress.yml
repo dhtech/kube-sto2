@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: fusiondirectory-ingress
+  namespace: ldap
+  annotations:
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - secretName: fusiondirectory-ingress-tls
+    hosts:
+    - fusion.tech.dreamhack.se
+  rules:
+  - host: fusion.tech.dreamhack.se
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: fusiondirectory
+          servicePort: 80

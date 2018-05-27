@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: fusiondirectory
+  name: fusiondirectory
+  namespace: ldap
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 100%
+    type: RollingUpdate
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: fusiondirectory
+  template:
+    metadata:
+      labels:
+        k8s-app: fusiondirectory
+    spec:
+      containers:
+      - image: quay.io/dhtech/fusiondirectory
+        imagePullPolicy: Always
+        name: fusiondirectory
+        volumeMounts:
+        - mountPath: "/etc/ssl/ldap"
+          name: cacert-config
+        env:
+        - name: FD_APACHE_SERVERNAME
+          value: "fusion.tech.dreamhack.se"
+        - name: FD_ADMIN_DN
+          valueFrom:
+            secretKeyRef:
+              name: fusiondirectory-secret
+              key: FD_ADMIN_DN
+        - name: FD_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: fusiondirectory-secret
+              key: FD_ADMIN_PASSWORD
+        - name: FD_URI
+          valueFrom:
+            secretKeyRef:
+              name: fusiondirectory-secret
+              key: FD_ADMIN_URI
+      - image: quay.io/dhtech/dhauth
+        imagePullPolicy: Always
+        name: dhauth
+        env:
+        - name: APACHE_PROXY_PORT
+          value: "8000"
+        - name: LDAP_GROUP
+          value: "cn=tech-all,ou=groups,dc=tech,dc=dreamhack,dc=se"
+      restartPolicy: Always
+      volumes:
+        - name: cacert-config
+          configMap:
+            name: fusiondirectory-config
