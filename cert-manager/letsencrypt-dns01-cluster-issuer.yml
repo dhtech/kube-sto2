@@ -12,7 +12,17 @@ spec:
       providers:
         - name: dhdns
           grpc:
-            service: dns:///dns.net.dreamhack.se
+            useTLS: true
+            # TODO(bluecmd): Right now cert-manager seems to not support
+            # GRPCLB
+            #service: dns:///dns.net.dreamhack.se
+            service: dns.net.dreamhack.se:443
             serverName: dns.net.dreamhack.se
-            timeout: 1m
+            clientCertificateSecretRef:
+              name: dhdns-grpc
+              key: certificate
+            clientCertificateKeySecretRef:
+              name: dhdns-grpc
+              key: key
+            timeout: 5m
             interval: 10s
