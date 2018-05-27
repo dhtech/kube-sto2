@@ -19,6 +19,11 @@ spec:
             - image: quay.io/dhtech/enroll-user
               imagePullPolicy: Always
               name: enroll-user
+              env:
+              - name: FUSIONSERVER
+                value: "fusiondirectory.ldap"
+              - name: FUSIONPORT
+                value: "8000"
             - image: quay.io/dhtech/dhauth
               imagePullPolicy: Always
               name: dhauth
