@@ -29,7 +29,7 @@ spec:
         - --ldap_base=dc=dreamhack,dc=se
         - --vault_renew=6h
         - --audit_host=ircbot.tech.dreamhack.se:9007
-        - --vault_group_map={"cn=services,ou=groups,dc=event,dc=dreamhack,dc=se":"services","cn=tech,ou=groups,dc=event,dc=dreamhack,dc=se":"tech"}
+        - --vault_group_map={"cn=services-team,ou=groups,ou=services,dc=event,dc=dreamhack,dc=se":"services","cn=tech,ou=groups,dc=event,dc=dreamhack,dc=se":"tech"}
         env:
         - name: VAULT_ADDR
           value: https://vault.tech.dreamhack.se
