@@ -27,9 +27,9 @@ spec:
             name: kjell-sshd-key
         env:
           - name: KJELL_SUDO_GROUP
-            value: "services-colo"
+            value: "%services-colo-team"
           - name: KJELL_ACCESS_GROUP
-            value: "skalman-tech-colo"
+            value: "skalman-tech-access"
         readinessProbe:
           tcpSocket:
             port: 22
