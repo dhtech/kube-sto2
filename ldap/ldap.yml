@@ -22,7 +22,7 @@ spec:
       name: ldap
     spec:
       containers:
-      - image: quay.io/dhtech/ldap
+      - image: quay.io/dhtech/ldap:master
         imagePullPolicy: Always
         name: ldap
         volumeMounts:
@@ -31,25 +31,23 @@ spec:
         env:
           - name: CA
             value: /etc/ssl/ldap/ca.crt
+          - name: CERTFILE
+            value: /etc/ssl/ldap/server.crt
+          - name: KEYFILE
+            value: /etc/ssl/ldap/server.key
           - name: LOGLEVEL
             value: "0x4120"
           - name: PROTOCOLS
-            value: "ldap:///"
+            value: "ldap:/// ldaps:///"
           - name: MASTER
-            valueFrom:
-              secretKeyRef:
-                name: ldap-credentials
-                key: master
+            value: "ldap-master.tech.dreamhack.se"
+          - name: ADMIN_BIND
+            value: "cn=admin,dc=dreamhack,dc=se"
           - name: MASTERPW
             valueFrom:
               secretKeyRef:
                 name: ldap-credentials
                 key: master-password
-          - name: ROOTPW
-            valueFrom:
-              secretKeyRef:
-                name: ldap-credentials
-                key: root-password
         resources:
               requests:
                 memory: "900Mi"
