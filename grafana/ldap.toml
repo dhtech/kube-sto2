@@ -1,5 +1,5 @@
 [[servers]]
-host = "ldap2.tech.dreamhack.se"
+host = "ldap4.tech.dreamhack.se"
 port = 636
 use_ssl = true
 start_tls = false
