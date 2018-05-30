@@ -40,7 +40,7 @@ spec:
             secretKeyRef:
               name: fusiondirectory-secret
               key: FD_ADMIN_PASSWORD
-        - name: FD_URI
+        - name: FD_ADMIN_URI
           valueFrom:
             secretKeyRef:
               name: fusiondirectory-secret
@@ -52,7 +52,7 @@ spec:
         - name: APACHE_PROXY_PORT
           value: "8000"
         - name: LDAP_GROUP
-          value: "cn=tech-all,ou=groups,dc=tech,dc=dreamhack,dc=se"
+          value: "cn=everyone,ou=groups,dc=tech,dc=dreamhack,dc=se"
       restartPolicy: Always
       volumes:
         - name: cacert-config
