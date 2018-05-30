@@ -58,7 +58,7 @@ spec:
         - name: APACHE_PROXY_PORT
           value: "8080"
         - name: LDAP_GROUP
-          value: "cn=tech-dhs18,ou=groups,dc=tech,dc=dreamhack,dc=se"
+          value: "cn=services-colo-team,ou=groups,dc=colo,dc=dreamhack,dc=se"
       restartPolicy: Always
       volumes:
         - name: puppetdb-keys

@@ -29,7 +29,7 @@ spec:
               - name: APACHE_PROXY_PORT
                 value: "5001" 
               - name: LDAP_GROUP
-                value: "cn=tech-dhs18,ou=groups,dc=tech,dc=dreamhack,dc=se"
+                value: "cn=everyone,ou=groups,dc=tech,dc=dreamhack,dc=se"
             restartPolicy: Always
             volumes:
                 - name: purltal-config

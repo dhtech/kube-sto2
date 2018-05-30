@@ -31,7 +31,7 @@ spec:
         - name: APACHE_PROXY_PORT
           value: "8080"
         - name: LDAP_GROUP
-          value: "cn=prom-colo,ou=groups,dc=tech,dc=dreamhack,dc=se"
+          value: "cn=services-colo-team,ou=groups,dc=colo,dc=dreamhack,dc=se"
       - image: quay.io/dhtech/ipplan
         imagePullPolicy: Always
         name: ipplan
