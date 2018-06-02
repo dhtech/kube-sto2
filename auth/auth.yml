@@ -19,12 +19,12 @@ spec:
         environment: prod
     spec:
       containers:
-      - image: quay.io/dhtech/authservice:v1.2.1
+      - image: quay.io/dhtech/authservice:v1.2.2
         imagePullPolicy: Always
         command:
         - /go/bin/app
-        - --ldap_server=ldap-master.tech.dreamhack.se:636
-        - --ldap_server_name=ldap-master.tech.dreamhack.se
+        - --ldap_server=ldap.ldap:636
+        - --ldap_server_name=ldap.ldap
         - --ldap_bind=uid=%s,ou=people,dc=tech,dc=dreamhack,dc=se
         - --ldap_base=dc=dreamhack,dc=se
         - --vault_renew=6h
