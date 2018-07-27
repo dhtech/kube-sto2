@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: rocketchat
-        image: rocketchat/rocket.chat:0.64.0
+        image: rocketchat/rocket.chat:0.67.0
         env:
         - name: MONGO_URL
           valueFrom:
@@ -31,12 +31,3 @@ spec:
               key: mongodb-oplog-url
         - name: ROOT_URL
           value: https://rocketchat.tech.dreamhack.se
-      - name: stunnel
-        image: dweomer/stunnel:latest
-        env:
-        - name: STUNNEL_SERVICE
-          value: IRCS
-        - name: STUNNEL_ACCEPT
-          value: "6667"
-        - name: STUNNEL_CONNECT
-          value: irc.tech.dreamhack.se:9000
