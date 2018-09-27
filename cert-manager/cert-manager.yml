@@ -18,7 +18,7 @@ spec:
       serviceAccountName: cert-manager
       containers:
         - name: cert-manager
-          image: quay.io/dhtech/cert-manager-controller:grpc2
+          image: quay.io/dhtech/cert-manager-controller:grpc4
           imagePullPolicy: IfNotPresent
           args:
           - --cluster-resource-namespace=$(POD_NAMESPACE)
