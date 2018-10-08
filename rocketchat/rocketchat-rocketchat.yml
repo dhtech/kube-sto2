@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: rocketchat
-        image: rocketchat/rocket.chat:0.67.0
+        image: rocketchat/rocket.chat:0.70.3
         env:
         - name: MONGO_URL
           valueFrom:
