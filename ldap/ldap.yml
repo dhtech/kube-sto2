@@ -36,7 +36,7 @@ spec:
           - name: KEYFILE
             value: /etc/ssl/ldap/server.key
           - name: LOGLEVEL
-            value: "0x4120"
+            value: "0x4100"
           - name: PROTOCOLS
             value: "ldap:/// ldaps:///"
           - name: MASTER
