@@ -24,6 +24,16 @@ spec:
                 value: "fusiondirectory.ldap"
               - name: FUSIONPORT
                 value: "8000"
+              - name: FUSIONUSERNAME
+                valueFrom:
+                  secretKeyRef:
+                    name: enroll-user-secret
+                    key: FUSIONUSERNAME
+              - name: FUSIONPASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: enroll-user-secret
+                    key: FUSIONPASSWORD
             - image: quay.io/dhtech/dhauth
               imagePullPolicy: Always
               name: dhauth
