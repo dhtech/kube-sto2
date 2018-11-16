@@ -37,6 +37,6 @@ spec:
         - name: STUNNEL_SERVICE
           value: IRCS
         - name: STUNNEL_ACCEPT
-          value: "9999"
+          value: "9998"
         - name: STUNNEL_CONNECT
-          value: irc.tech.dreamhack.se:9999
+          value: irc.tech.dreamhack.se:9998
