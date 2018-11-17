@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mattermost-ldap-admin
+  namespace: mattermost
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+subjects:
+- kind: Group
+  name: cn=mattermost-team,ou=groups,dc=colo,dc=dreamhack,dc=se
