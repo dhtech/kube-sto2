@@ -17,9 +17,12 @@ data:
         - targets:
            - alertmanager.monitoring
 
-
     scrape_configs:
     - job_name: 'event-scraper'
-
+      honor_labels: true
+      metrics_path: '/prometheus/federate'
+      params:
+        'match[]':
+          - '{__name__=~".+"}'
       static_configs:
-      - targets: ['prom.event.dreamhack.se:9090']
+      - targets: ['prometheus.event.dreamhack.se:9090']
