@@ -36,9 +36,9 @@ spec:
               name: dhauth
               env:
               - name: APACHE_PROXY_PORT
-                value: "9090" 
+                value: "9090"
               - name: LDAP_GROUP
-                value: "cn=services-colo-team,ou=groups,dc=colo,dc=dreamhack,dc=se"
+                value: "cn=prometheus-federation-access,ou=groups,dc=colo,dc=dreamhack,dc=se"
             restartPolicy: Always
             volumes:
                 - name: prometheus-fed-config
