@@ -21,7 +21,7 @@ spec:
         k8s-app: fusiondirectory
     spec:
       containers:
-      - image: quay.io/dhtech/fusiondirectory
+      - image: quay.io/dhtech/fusiondirectory:v1.1-webservice
         imagePullPolicy: Always
         name: fusiondirectory
         volumeMounts:
@@ -52,7 +52,7 @@ spec:
         - name: APACHE_PROXY_PORT
           value: "8000"
         - name: LDAP_GROUP
-          value: "cn=everyone,ou=groups,dc=tech,dc=dreamhack,dc=se"
+          value: "cn=fusion-access,ou=groups,dc=colo,dc=dreamhack,dc=se"
       restartPolicy: Always
       volumes:
         - name: cacert-config
