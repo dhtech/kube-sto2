@@ -24,6 +24,10 @@ spec:
           name: ipplan
         - mountPath: "/etc/deploy/"
           name: deploy-config
+        - mountPath: "/etc/ssl/certs"
+          name: ssl-certs
+        - mountPath: "/usr/share/ca-certificates"
+          name: ssl-certs-ca
       - image: quay.io/dhtech/dhauth
         imagePullPolicy: Always
         name: dhauth
@@ -56,3 +60,9 @@ spec:
       - name: deploy-config
         secret:
           secretName: deploy-config
+      - hostPath:
+          path: /etc/ssl/certs
+        name: ssl-certs
+      - hostPath:
+          path: /usr/share/ca-certificates/
+        name: ssl-certs-ca
