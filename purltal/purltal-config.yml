@@ -17,7 +17,8 @@ data:
               { "name":"dhcpinfo" , "link":"https://dhcpinfo.event.dreamhack.se"},
               { "name":"dnsstat" , "link":"https://dnsstat.event.dreamhack.se"},
               { "name":"vCenter" , "link":"https://vc.event.dreamhack.se"},
-              { "name":"alertmanager" , "link":"https://alertmanager.event.dreamhack.se"}
+              { "name":"alertmanager" , "link":"https://alertmanager.event.dreamhack.se"},
+              { "name":"netflow", "link":"https://sflow1.event.dreamhack.se"}
             ]
         },
         "Colo": {
