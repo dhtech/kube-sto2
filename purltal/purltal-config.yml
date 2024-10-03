@@ -15,11 +15,10 @@ data:
               { "name":"buildstatus" , "link":"https://status.event.dreamhack.se/webmon/buildstatus.html"},
               { "name":"grafana" , "link":"https://grafana.event.dreamhack.se"},
               { "name":"dhcpinfo" , "link":"https://dhcpinfo.event.dreamhack.se"},
-              { "name":"ticket" , "link":"https://ticket.tech.dreamhack.se"},
               { "name":"dnsstat" , "link":"https://dnsstat.event.dreamhack.se"},
-              { "name":"tele" , "link":"https://tele.event.dreamhack.se"},
               { "name":"vCenter" , "link":"https://vc.event.dreamhack.se"},
-              { "name":"alertmanager" , "link":"https://alertmanager.event.dreamhack.se"}
+              { "name":"alertmanager" , "link":"https://alertmanager.event.dreamhack.se"},
+              { "name":"netflow", "link":"https://sflow1.event.dreamhack.se"}
             ]
         },
         "Colo": {
@@ -34,7 +33,9 @@ data:
               { "name":"deploy-ui" , "link":"https://deploy-ui.tech.dreamhack.se"},
               { "name":"vault" , "link":"https://vault.tech.dreamhack.se"},
               { "name":"vCenter" , "link":"https://vc.tech.dreamhack.se"},
-              { "name":"alertmanager-sto2" , "link":"https://alert-sto2.tech.dreamhack.se"}
+              { "name":"alertmanager-sto2" , "link":"https://alert-sto2.tech.dreamhack.se"},
+              { "name":"fusion", "link":"https://fusion.tech.dreamhack.se"},
+              { "name":"request", "link":"https://request.tech.dreamhack.se/"}
             ]
         },
         "Tools": {
@@ -43,7 +44,7 @@ data:
               { "name":"circleci" , "link":"https://circleci.com/gh/dhtech"},
               { "name":"quay" , "link":"https://quay.io/organization/dhtech"},
               { "name":"codeclimate" , "link":"https://codeclimate.com"},
-              { "name":"trello" , "link":"https://trello.com"}
+              { "name":"monday", "link": "https://eslfaceitgroup.monday.com/"}
             ]
         }
     }
